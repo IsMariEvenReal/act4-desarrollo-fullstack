@@ -3,7 +3,7 @@ const control = require('./controllers');
 const app = express();
 const PORT = process.env.PORT || 3000;
 const jwt = require('jsonwebtoken');
-const llave_jwt = process.env.LLAVE_JWT;
+const llave_jwt = process.env.SECRET_KEY;
 const path = require('path');
 
 const cors = require('cors');
