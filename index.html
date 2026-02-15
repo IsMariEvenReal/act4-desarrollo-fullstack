@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Ediciones Lavanda</title>
+    <meta name="description" content="Página web oficial de Ediciones Lavanda. Publicamos novelas románticas y de misterio">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="styles.css">
+    <script src="main.js" defer></script>
+</head>
+<body>
+    <h1>Bienvenide a Ediciones Lavanda</h1>
+    <p>Publicamos las historias que quieres leer. Novelas <mark>románticas y de misterio</mark> para todos los tipos de lectores.</p>
+    <h2>Lanzamientos recientes</h2>
+    <p>Tu próxima lectura favorita está aquí.</p>
+    <table id="ult">
+        <tr id="fila-portadas"></tr>
+        <tr id="fila-titulos" class="tit_ult"></tr>
+        <tr id="fila-autores" class="Aut"></tr>
+        <tr id="fila-descripciones"></tr>
+        <tr id="añadir-a-deseos"></tr>
+    </table>
+    <h2>Próximo lanzamiento</h2>
+    <p>¿Lo añadirás a tu TBR?</p>
+    <table id="prox">
+        <tr>
+            <td rowspan="3" id="prox-portada-celda">
+                </td>
+            <th id="prox-titulo"></th>
+        </tr>
+        <tr>
+            <td class="Aut" id="prox-autor"></td>
+        </tr>
+        <tr>
+            <td id="prox-descripcion"></td>
+        </tr>
+    </table>
+    <div>
+        <h2>Ingresa a tu lista de deseos</h2>
+        <p>Mira los libros de Ediciones Lavanda que has añadido a tu TBR</p>
+        <a href="tbr.html">
+            <button id="ver-deseos">Ver TBR</button>
+        </a>
+    </div>
+    <h2>Contáctanos</h2>
+    <p>Estamos a tu disposición. Envíanos un mensaje a través del formulario y te contestaremos tan pronto como sea posible.</p>
+    <form id="form-contacto">
+        <label for="Nombre">Nombre: </label>
+        <textarea id="Nombre" name="Nombre" rows="1" required></textarea>
+        <br>
+        <label for="Email">Correo electrónico: </label>
+        <input type="email" id="Email" name="Email" required>
+        <br>
+        <label for="Mensaje">Mensaje:</label>
+        <textarea id="Mensaje" name="Mensaje" rows="4" cols="50" required></textarea>
+        <br>
+        <input type="submit" value="Enviar">
+    </form>
+    <footer class="footer">
+        <p>Síguenos en redes sociales:</p>
+        <a href="instagram.com/ediciones_lavanda">Instagram</a>
+        <br>
+        <a href="x.com/ediciones_lavanda">X (anteriormente Twitter)</a>
+        <br>
+        <a href="tiktok.com/ediciones_lavanda">TikTok</a>
+        <p>&copy; 2026 Ediciones Lavanda. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>

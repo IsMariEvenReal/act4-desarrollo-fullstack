@@ -1,0 +1,50 @@
+body {
+    font-family:Arial, Helvetica, sans-serif
+}
+
+.portada {
+    width: 250px;
+    height: 400px;
+}
+
+.Aut {
+    font-family: Arial, Helvetica, sans-serif;
+    text-decoration-thickness: from-font;
+}
+
+mark, h1, h2, form {
+    background-color: #AFA4CE;
+}
+
+#ult {
+    text-align: center;
+}
+
+.tit_ult {
+    font-family:Arial, Helvetica, sans-serif;
+    font-size: larger;
+}
+
+#prox {
+    text-align: left;
+}
+
+.ult_lanzamientos {
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; 
+}
+
+.footer {
+    background-color: #6F2DA8;
+    color: white;
+}
+
+#user {
+    text-align: center;
+    background-color: #AFA4CE;
+}
+
+.item-deseo {
+    margin-bottom: 30px;
+    text-align: left;
+}
