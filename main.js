@@ -8,7 +8,7 @@ const contactForm = document.getElementById('form-contacto');
 
 async function cargarContenido() {
     try {
-        const respuesta = await fetch('http://localhost:3000/catalogo');
+        const respuesta = await fetch('/catalogo');
         const data = await respuesta.json();
 
         if (data.proximo) {
@@ -69,7 +69,7 @@ contactForm.addEventListener('submit', async (e) => {
     };
 
     try {
-        const respuesta = await fetch('http://localhost:3000/contacto', {
+        const respuesta = await fetch('/contacto', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -109,7 +109,7 @@ function asignarEventosDeseos() {
 
             //Si hay token, el código sigue normalmente
             try {
-                const respuesta = await fetch('http://localhost:3000/deseos', {
+                const respuesta = await fetch('/deseos', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

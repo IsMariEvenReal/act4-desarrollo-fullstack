@@ -8,7 +8,7 @@ async function cargarListaDeseos() {
     }
 
     try {
-    const respuesta = await fetch('http://localhost:3000/deseos', {
+    const respuesta = await fetch('/deseos', {
         headers: { 'Authorization': `Bearer ${token}` }
     });
 
@@ -62,7 +62,7 @@ function asignarEventosEliminar() {
             const idLibro = boton.getAttribute('data-id');
             const token = localStorage.getItem('token');
 
-            const respuesta = await fetch('http://localhost:3000/deseos', {
+            const respuesta = await fetch('/deseos', {
                 method: 'DELETE',
                 headers: { 
                     'Content-Type': 'application/json',

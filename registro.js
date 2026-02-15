@@ -10,7 +10,7 @@ formRegistro.addEventListener('submit', async (e) => {
     };
 
     try {
-        const respuesta = await fetch('http://localhost:3000/registro', {
+        const respuesta = await fetch('/registro', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
