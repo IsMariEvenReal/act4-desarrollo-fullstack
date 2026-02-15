@@ -1,0 +1,35 @@
+name: Node.js CI/CD - Render
+
+on:
+  push:
+    branches: [ main ]  # Se activa cada vez que se sube algo a la rama main
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Descargar código del repositorio
+      uses: actions/checkout@v4
+
+    - name: Configurar Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '24'
+        cache: 'npm'
+
+    - name: Instalar dependencias
+      run: npm install
+
+    - name: Ejecutar pruebas unitarias (Jest)
+      run: npm test
+      env:
+        NODE_ENV: test
+        LLAVE_JWT: clave_falsa_123 
+
+    - name: Notificar despliegue a Render
+      if: success() # Solo se ejecuta si los tests pasaron
+      run: |
+        curl -X GET ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
