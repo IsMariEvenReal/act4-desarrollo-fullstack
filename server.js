@@ -2,6 +2,9 @@ const express = require('express');
 const control = require('./controllers');
 const app = express();
 const PORT = process.env.PORT || 3000;
+const jwt = require('jsonwebtoken');
+const llave_jwt = process.env.LLAVE_JWT;
+const path = require('path');
 
 const cors = require('cors');
 app.use(cors({
@@ -11,6 +14,8 @@ app.use(cors({
 }));
 
 app.use(express.json());
+
+app.use(express.static(__dirname));
 
 //Función para verificación del token
 const verificarToken = (req, res, next) => {
@@ -38,6 +43,10 @@ const verificarToken = (req, res, next) => {
         next();
     });
 };
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
 
 //Método POST para el registro de nuevos usuarios
 app.post('/registro', control.Registro);
