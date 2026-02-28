@@ -10,7 +10,7 @@ formLogin.addEventListener('submit', async (e) => {
     };
 
     try {
-        const respuesta = await fetch('/login', {
+        const respuesta = await fetch('http:/localhost:3000/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -34,3 +34,25 @@ formLogin.addEventListener('submit', async (e) => {
         alert("No se pudo conectar con el servidor. Intenta de nuevo más tarde.");
     }
 });
+
+window.handleCredentialResponse = function(response) {
+    // El 'response.credential' es un token JWT firmado por Google
+    fetch('/auth/google/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token: response.credential })
+    })
+    .then(res => res.json())
+    .then(data => {
+        console.log("Sesión iniciada:", data);
+        
+        if (data.success && data.token) {
+            // ESTA LÍNEA ES VITAL: Guarda el token para que tbr.html lo vea
+            localStorage.setItem('token', data.token); 
+            window.location.href = 'tbr.html';
+        } else {
+            console.error("El servidor no envió un token válido:", data);
+        }
+    })
+    .catch(err => console.error("Error al autenticar:", err));
+}

@@ -1,95 +1,63 @@
-//Se definen las filas de la tabla HTML que será llenada
-const filaPortadas = document.getElementById('fila-portadas');
-const filaTitulos = document.getElementById('fila-titulos');
-const filaAutores = document.getElementById('fila-autores');
-const filaDescripciones = document.getElementById('fila-descripciones');
-const filaBotones = document.getElementById('añadir-a-deseos');
+//Se definen los divs, formularios, etc.
+const divLibros = document.getElementById('ult-libros');
+const divProx = document.getElementById('prox-libro');
 const contactForm = document.getElementById('form-contacto');
+const divBotones = document.getElementById('nav-botones');
+const btnAdelante = document.getElementById('btn-adelante');
+let pagActual = 1;
 
-async function cargarContenido() {
+async function cargarProxLanzamiento() {
     try {
-        const respuesta = await fetch('/catalogo');
+        const respuesta = await fetch('/prox');
         const data = await respuesta.json();
 
-        if (data.proximo) {
-            const p = data.proximo; //Abreviamos para leer mejor el código
+        const p = data.proximo; //Abreviamos para leer mejor el código
 
-            //Insertamos la imagen de portada
-            const celdaImagen = document.getElementById('prox-portada-celda');
-            celdaImagen.innerHTML = `<img src="${p.url_portada}" 
-                                        class="portada" 
-                                        alt="${p.alt_portada}">`;
+        const divProxPortada = document.createElement("div");
+        divProxPortada.classList.add('prox-portada');
+        divProxPortada.innerHTML = `<img src="${p.url_portada}" class="portada" alt="${p.alt_portada}">`
+        divProx.appendChild(divProxPortada);
 
-            //Se llena el texto de las demás celdas
-            document.getElementById('prox-titulo').textContent = p.titulo;
-            
-            //Para el autor, usamos innerHTML para conservar la etiqueta <mark>
-            document.getElementById('prox-autor').innerHTML = `<mark>${p.autor}</mark>`;
-            
-            document.getElementById('prox-descripcion').textContent = p.descripcion;
+        const divProxInfo = document.createElement("div");
+        divProxInfo.classList.add('prox-info');
+        divProxInfo.innerHTML = `<p><strong>${p.titulo}</strong></p>
+                                <p><mark>${p.autor}</mark></p>
+                                <p>${p.descripcion}</p>`
+        divProx.appendChild(divProxInfo);
         }
-
-        // Aquí iteramos sobre data.catalogo
-        data.catalogo.forEach(libro => {
-            filaPortadas.innerHTML += `
-                <td>
-                    <img src="${libro.url_portada}" 
-                         class="portada" 
-                         alt="${libro.alt_portada}">
-                </td>`;
-
-            filaTitulos.innerHTML += `<th>${libro.titulo}</th>`;
-            filaAutores.innerHTML += `<td><mark>${libro.autor}</mark></td>`;
-            filaDescripciones.innerHTML += `<td>${libro.descripcion}</td>`;
-
-            filaBotones.innerHTML += `
-                <td>
-                    <button class="btn-deseo" data-id="${libro.id}">
-                        Añadir a TBR
-                    </button>
-                </td>`;
-        });
-        asignarEventosDeseos();
-
-    } catch (error) {
-        console.error("Error al cargar la editorial:", error);
-    }
+        catch (error){
+            console.error("Error al cargar el último lanzamiento", error);
+        }
 }
 
-cargarContenido();
-
-contactForm.addEventListener('submit', async (e) => {
-    e.preventDefault(); // Evita que la página se recargue (comportamiento por defecto)
-
-    // Creamos el objeto con los datos exactos que espera el backend
-    const datosEnvio = {
-        nombre: document.getElementById('Nombre').value,
-        email: document.getElementById('Email').value,
-        mensaje: document.getElementById('Mensaje').value,
-    };
-
+async function cargarCatalogo() {
     try {
-        const respuesta = await fetch('/contacto', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(datosEnvio)
-        });
+            const respuesta = await fetch(`/catalogo?page=${pagActual}`);
+            const data = await respuesta.json();
+            divLibros.innerHTML = '';
+            // Aquí iteramos sobre el catálogo
+            data.catalogo.forEach(libro => {
 
-        const resultado = await respuesta.json();
+            const nuevoDivLibro = document.createElement('div');
+            nuevoDivLibro.classList.add('libro');
 
-        if (respuesta.ok) {
-            alert("¡Mensaje enviado! Te responderemos lo más pronto posible.");
-            contactForm.reset(); // Limpia el formulario después de enviar
-        } else {
-            alert("Error: " + resultado.error);
+            nuevoDivLibro.innerHTML += `<img src="${libro.url_portada}" class="portada" alt="${libro.alt_portada}">
+            <p><strong>${libro.titulo}</strong></p>
+            <p><mark>${libro.autor}</mark></p>
+            <p>${libro.descripcion}</p>
+            <button class="btn-deseo" data-id="${libro.id}">Añadir a TBR</button>`
+
+            divLibros.appendChild(nuevoDivLibro);
+        })
+        renderizarPaginacion(data.totalPaginas);
+        asignarEventosDeseos();
+        } catch (error) {
+            console.error("Error al cargar la editorial:", error);
         }
-    } catch (error) {
-        console.error("Error en la conexión:", error);
-        alert("No se pudo conectar con el servidor. Intenta de nuevo más tarde.");
-    }
-});
+}
+
+cargarProxLanzamiento();
+cargarCatalogo();
 
 function asignarEventosDeseos() {
     const botones = document.querySelectorAll('.btn-deseo');
@@ -133,3 +101,28 @@ function asignarEventosDeseos() {
         });
     });
 }
+
+function renderizarPaginacion(pags) {
+
+    console.log("--> Intentando renderizar. Valor recibido:", pags);
+
+    divBotones.innerHTML = '';
+    for(let i=1; i<=pags; i++) {
+        const nuevoBoton = document.createElement('button');
+        nuevoBoton.textContent = i;
+        nuevoBoton.dataset.pagina = i;
+        if(i == pagActual) {
+            nuevoBoton.classList.add('activo');
+        }
+        divBotones.appendChild(nuevoBoton);
+    }
+}
+
+divBotones.addEventListener('click', async(e) => {
+    const objetivo = e.target.closest('button');
+    if(objetivo){
+        const nuevaPagina = objetivo.dataset.pagina;
+        pagActual = nuevaPagina;
+        cargarCatalogo();
+    }
+})

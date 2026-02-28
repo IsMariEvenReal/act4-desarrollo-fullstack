@@ -12,10 +12,10 @@ const connection = mysql.createConnection({
     password: process.env.DB_PASS, // Lee contraseña desde el .env
     database: process.env.DB_NAME, // Lee el nombre de la base de datos
     port: process.env.DB_PORT || 4000,
-    ssl: {
+    /* ssl: {
         minVersion: 'TLSv1.2',
         rejectUnauthorized: true // TiDB recomienda esto para seguridad
-    }
+    } */
 });
 
 if (process.env.NODE_ENV !== 'test') {

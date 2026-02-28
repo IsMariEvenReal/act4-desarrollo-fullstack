@@ -1,5 +1,7 @@
 body {
-    font-family:Arial, Helvetica, sans-serif
+    font-family:Arial, Helvetica, sans-serif;
+    background-color: #E2A9F1;
+    font-size: 1.3rem;
 }
 
 .portada {
@@ -7,44 +9,145 @@ body {
     height: 400px;
 }
 
-.Aut {
-    font-family: Arial, Helvetica, sans-serif;
-    text-decoration-thickness: from-font;
-}
-
-mark, h1, h2, form {
-    background-color: #AFA4CE;
-}
-
-#ult {
-    text-align: center;
-}
-
-.tit_ult {
-    font-family:Arial, Helvetica, sans-serif;
-    font-size: larger;
+mark {
+    background-color: #6F2DA8;
 }
 
 #prox {
     text-align: left;
 }
 
-.ult_lanzamientos {
-    justify-content: center; /* Centra horizontalmente */
-    align-items: center; 
-}
-
-.footer {
+header, footer {
     background-color: #6F2DA8;
     color: white;
 }
 
+#navbar {
+    height: 80px;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#img-navbar {
+    height: 70px;
+    width: 70px;
+}
+
+#navbar a {
+    color: #E2A9F1;
+    text-align: center;
+    font-size: 1.5rem;
+    padding: 14px 20px;
+    text-decoration: none;
+}
+
 #user {
     text-align: center;
-    background-color: #AFA4CE;
+}
+
+.btn-deseo {
+    margin-bottom: 20px;
+}
+
+#redes-sociales {
+    display: flex;
+    width: 200px;
+    text-decoration: none;
+    justify-content: space-between;
+}
+
+.red-social {
+    height: 50px;
+    width: 50px;
+}
+
+label {
+    font-size: 1rem;
+}
+
+hr {
+    width: 50%;
+    background-color: #6F2DA8;
+    height: 2px;
+    border: none;
+}
+
+#intro {
+    width: 70%;
+}
+
+.info-deseo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+#prox-libro {
+    display: flex;
+    flex-grow: 1;
+    justify-content: space-between;
+    align-items: left;
 }
 
 .item-deseo {
-    margin-bottom: 30px;
-    text-align: left;
+    width: 85%;
+    display: flex;
+    justify-content: space-around;
+    align-items: left;
+    padding-bottom: 30px;
+}
+
+#ult-libros {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#nav-botones {
+    display: flex;
+    justify-content: center;
+}
+
+.activo {
+    background-color: #6F2DA8;
+    color: #E2A9F1;
+    border-color: #E2A9F1;
+}
+
+.libro {
+    align-items: center;
+    text-align: center;
+    width: 33%;
+}
+
+.titulo {
+    padding: 30px;
+    font-size: larger;
+}
+
+.titulo-deseo {
+    padding: 0px;
+}
+
+.prox-portada {
+    padding-right: 50px;
+}
+
+.ult-portada {
+    padding-bottom: 30px;
+}
+
+.prox-info, .libro, .info-deseo, #contenedor-tbr {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.contenedor-google {
+    display: flex;
+    justify-content: center;
 }

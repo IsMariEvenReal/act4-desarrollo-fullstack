@@ -26,25 +26,21 @@ async function cargarListaDeseos() {
         contenedor.innerHTML = "<p>Aún no tienes libros en tu lista de deseos.</p>";
     } else {
         datos.forEach(libro => {
-            contenedor.innerHTML += `
-                <table class="item-deseo">
-                    <tr>
-                        <td rowspan="4"><img src=${libro.url_portada} class="portada"
-                        alt=${libro.alt_portada}></td>
-                        <th>${libro.titulo}</th>
-                    </tr>
-                    <tr>
-                        <td class="Aut"><mark>${libro.autor}</mark></td>
-                    </tr>
-                    <tr>
-                        <td>${libro.descripcion}</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <button class="btn-eliminar" data-id=${libro.id}>Eliminar</button>
-                        </td>
-                    </tr>
-                </table>`
+
+            const nuevoItemDeseo = document.createElement('div');
+            nuevoItemDeseo.classList.add('item-deseo');
+            nuevoItemDeseo.innerHTML += `
+                    <div class="portada-deseo">
+                        <img src="${libro.url_portada}" class="portada" alt="${libro.alt_portada}">
+                    </div>
+                    <div class="info-deseo">
+                        <p class="titulo-deseo"><strong>${libro.titulo}</strong></p>
+                        <p><mark>${libro.autor}</mark></p>
+                        <p>${libro.descripcion}</p>
+                        <button class="btn-eliminar" data-id="${libro.id}">Eliminar</button>
+                    </div>`
+
+            contenedor.appendChild(nuevoItemDeseo);
         });
     }
 } catch (error) {
@@ -72,8 +68,8 @@ function asignarEventosEliminar() {
             });
 
             if (respuesta.ok) {
-                //En lugar de recargar la página, eliminamos la tabla visualmente
-                boton.closest('table').remove(); 
+                //En lugar de recargar la página, eliminamos el div visualmente
+                boton.closest('.item-deseo').remove(); 
             }
         });
     });

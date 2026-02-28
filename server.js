@@ -13,6 +13,21 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization'] // ¡Es vital que Authorization esté aquí!
 }));
 
+app.use((req, res, next) => {
+  res.setHeader(
+    "Content-Security-Policy",
+    "script-src 'self' 'unsafe-eval' https://accounts.google.com/gsi/client; " +
+    "frame-src 'self' https://accounts.google.com/gsi/; " +
+    "connect-src 'self' https://accounts.google.com/gsi/;"
+  );
+  next();
+});
+
+app.use((req, res, next) => {
+    res.setHeader("Cross-Origin-Opener-Policy", "same-origin-allow-popups");
+    next();
+});
+
 app.use(express.json());
 
 app.use(express.static(__dirname));
@@ -54,7 +69,9 @@ app.post('/registro', control.Registro);
 //Método POST para el inicio de sesión
 app.post('/login', control.Login);
 
-//Método GET para obtener el catálogo y lanzamiento próximo
+app.get('/prox', control.ProxLanzamiento);
+
+//Método GET para obtener el catálogo
 app.get('/catalogo', control.ObtenerCatalogo);
 
 //Método GET para obtener la lista de deseos
@@ -64,7 +81,7 @@ app.post('/deseos', verificarToken, control.AgregarListaDeseos);
 
 app.delete('/deseos', verificarToken, control.EliminarListaDeseos);
 
-app.post('/contacto', control.EnviarMensaje);
+app.post('/auth/google/verify', control.AuthGoogle);
 
 //Middleware básico de manejo de errores
 app.use((err, req, res, next) => {
