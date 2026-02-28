@@ -12,7 +12,8 @@ const pool = mysql.createPool({
   password: process.env.TIDB_PASSWORD,
   database: process.env.TIDB_NAME,
   port: 4000,
-  ssl: { rejectUnauthorized: false },
+  ssl: { minVersion: 'TLSv1.2',
+    rejectUnauthorized: false },
   connectionLimit: 10 // El Pool mantiene hasta 10 conexiones listas
 });
 
