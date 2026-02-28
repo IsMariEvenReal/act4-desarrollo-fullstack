@@ -218,7 +218,7 @@ async function AuthGoogle(req, res) {
                     vincularYEnviar(userResults[0].id_usuario);
                 } else {
                     // 3. INSERTAR NUEVO USUARIO
-                    db.query('INSERT INTO usuarios (nombre, email) VALUES (?, ?)', [name, email], (err, insertRes) => {
+                    db.query('INSERT INTO usuarios (email) VALUES (?)', [name, email], (err, insertRes) => {
                         if (err) return res.status(500).json({ error: 'Error al crear usuario' });
 
                         const idGenerado = insertRes.insertId || (insertRes.results && insertRes.results.insertId);
