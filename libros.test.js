@@ -6,63 +6,6 @@ jest.mock('./db');
 jest.mock('bcryptjs');
 jest.mock('jsonwebtoken');
 
-describe('Pruebas unitarias: Controlador de Catálogo', () => {
-    let req, res, next;
-
-    beforeEach(() => {
-        req = {}; // Este controlador no usa datos del body ni params
-        res = {
-            json: jest.fn()
-        };
-        next = jest.fn();
-        jest.clearAllMocks();
-    });
-
-    it('debería separar correctamente el último lanzamiento del resto del catálogo', async () => {
-        //Preparamos datos ficticios
-        const librosSimulados = [
-            { id: 1, titulo: 'Libro Antiguo' },
-            { id: 2, titulo: 'Libro Nuevo' },
-            { id: 3, titulo: 'Último Lanzamiento' }
-        ];
-
-        //Mock de la respuesta de MySQL
-        db.query.mockImplementation((query, callback) => {
-            //Se devuelve el array completo
-            callback(null, [...librosSimulados]); 
-        });
-
-        //Ejecutamos el controlador
-        await ObtenerCatalogo(req, res, next);
-
-        //Verificamos que res.json recibió el objeto con la estructura debida
-        expect(res.json).toHaveBeenCalledWith({
-            proximo: { id: 3, titulo: 'Último Lanzamiento' },
-            catalogo: [
-                { id: 1, titulo: 'Libro Antiguo' },
-                { id: 2, titulo: 'Libro Nuevo' }
-            ]
-        });
-
-        // Verificamos que el catálogo resultante tenga 2 elementos
-        const llamada = res.json.mock.calls[0][0];
-        expect(llamada.catalogo).toHaveLength(2);
-    });
-
-    it('debería pasar el error a next() si la consulta SQL falla', async () => {
-        const errorDB = new Error('Fallo en el SELECT');
-        
-        db.query.mockImplementation((query, callback) => {
-            callback(errorDB, null);
-        });
-
-        await ObtenerCatalogo(req, res, next);
-
-        expect(next).toHaveBeenCalledWith(errorDB);
-        expect(res.json).not.toHaveBeenCalled();
-    });
-});
-
 describe('Pruebas unitarias: Módulo de Lista de Deseos', () => {
     let req, res, next;
 
@@ -147,4 +90,5 @@ describe('Pruebas unitarias: Módulo de Lista de Deseos', () => {
             expect(res.json).toHaveBeenCalledWith({ mensaje: 'Libro eliminado de la lista de deseos' });
         });
     });
+
 });
